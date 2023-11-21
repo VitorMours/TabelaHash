@@ -1,4 +1,4 @@
-package com.mycompany.hashcelula;
+package org.example;
 
 public class Celula {
     private int id;
