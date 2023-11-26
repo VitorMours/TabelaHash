@@ -3,10 +3,14 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
-    public static ArrayList<Cliente> listaClientes;
+    public static ArrayList<Cliente> listaClientes = new ArrayList<Cliente>();
+    public static ArrayList<Produto> listaProdutos = new ArrayList<Produto>();
+
+
     private static int identificacao = 0;
     public static boolean condition = true;
     public static void main(String[] args) {
+        addProducts();
         int acao = 0;
         Scanner input = new Scanner(System.in);
 
@@ -14,9 +18,9 @@ public class Main {
             System.out.println("=== Black Friday da HashTable! ===\n");
             System.out.println("""
                                1 - Registrar Cliente:
-                               2 - Fazer compra: 
+                               2 - Fazer compra:
                                3 - Usar Cupom: """);
-            System.out.println("==================================");
+            System.out.println("\n==================================");
             System.out.print("Escolha oque você deseja fazer: ");
 
             acao = input.nextInt();
@@ -33,10 +37,10 @@ public class Main {
 
     public static void registroCliente(){
         Scanner input = new Scanner(System.in);
-        Cliente novoCliente;
-        double saldo;
+        Cliente novoCliente = new Cliente();
+        double saldo = 0;
 
-        System.out.println("Qual o nome do usuário?");
+        System.out.print("Qual o nome do usuário?");
         String nome = input.nextLine();
 
         System.out.println("Deseja registrar o saldo do usuário[S | N]?");
@@ -44,15 +48,14 @@ public class Main {
         String gravarSaldo = input.next();
 
         if(gravarSaldo.equalsIgnoreCase("s")){
-            System.out.println("Digite o saldo do cliente: ");
+            System.out.print("Digite o saldo do cliente: ");
             saldo = input.nextDouble();
-            novoCliente = new Cliente(nome, saldo);
-        }else{
-            novoCliente = new Cliente(nome);
         }
+        novoCliente.setSaldo(saldo);
+        novoCliente.setNome(nome);
         System.out.println("""
                            Cliente registrado:
-                           Nome: """+novoCliente.getNome()+"\nSaldo: "+novoCliente.getSaldo());
+                           Nome: """+novoCliente.getNome()+"\nSaldo: "+novoCliente.getSaldo()+"\nIdentificação: "+novoCliente.getIdentificacao());
         novoCliente.setIdentificacao(identificacao);
         identificacao++;
         listaClientes.add(novoCliente);
@@ -60,19 +63,32 @@ public class Main {
     
     public static void comprarProduto(){
         Scanner input = new Scanner(System.in);
-        System.out.println("Digite o ID do usuário");
+        System.out.print("Digite o ID do usuário: ");
         int id = input.nextInt();
         for(Cliente cliente: listaClientes){
             if (cliente.getIdentificacao() == id){
                 System.out.println("O cliente que deseja fazer a compra é:\n"
-                        +"nome"+cliente.getNome()
+                        +"Nome: "+cliente.getNome()
+                        +"\nSaldo: "+ cliente.getSaldo()+
+                        "\nIdentificação: "+cliente.getIdentificacao()
                         );
+                break;
             }
-        
-                
         }
+        System.out.println("\n==================================");
 
-
+        System.out.println("Estes são os produtos que podem ser vendidos, suas identificações e seu estoque:");
+        for(Produto produto: listaProdutos){
+            System.out.println(produto.getNome()+": R$"+produto.getValor()+" - "+produto.getCodigo());
+        }
+        System.out.println("Escolha um dos produtos: ");
+        int produtoId = input.nextInt();
+        for(Produto produto: listaProdutos) {
+            if (produto.getCodigo() == produtoId) {
+                System.out.println("Produto achado e comprado");
+                break;
+            }
+        }
         
     }
     
@@ -84,27 +100,17 @@ public class Main {
 
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    public static void addProducts(){
+        int cont = 0;
+        int valor = 10;
+        String[] nomes = {"Papel","Grampeador","Livro","Caderno","Liquidificador","Camisa","Calça","Sapato"};
+        for(int i = 0; i < nomes.length; i++){
+            Produto novoProduto = new Produto(nomes[i],valor,cont);
+            cont++;
+            valor = valor + 10;
+            listaProdutos.add(novoProduto);
+        }
+    }
 
 
 
