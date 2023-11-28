@@ -7,7 +7,7 @@ public class Cliente {
     public String nome;
     public double saldo;
     private ArrayList<Cupom> listaCupomCliente;
-    public ArrayList<String>listaProdutoCliente;
+    public ArrayList<Produto>listaProdutoCliente = new ArrayList<>();
 
     //Constructors
     public Cliente(){
@@ -41,13 +41,13 @@ public class Cliente {
 
 
     public void adicionarProdutoCarrinho(Produto novoProduto){
-        listaProdutoCliente.add(String.valueOf(novoProduto));
+        listaProdutoCliente.add(novoProduto);
 
     }
     public void removerProdutoCarrinho(){}
     public void listarCompras(){
         System.out.println("Produtos comprados pelo cliente: "+this.nome+"-"+this.identificacao);
-        for(String produto: listaProdutoCliente){
+        for(Produto produto: listaProdutoCliente){
             System.out.println(produto);
         }
     }

@@ -89,7 +89,7 @@ public class Main {
         int produtoId = input.nextInt();
         Produto produtoComprado = listaHash.get(produtoId);
         System.out.println("O produto comprado foi: " + produtoComprado);
-        clienteComprador.listaProdutoCliente.add(produtoComprado.getNome());
+        clienteComprador.listaProdutoCliente.add(produtoComprado);
 
 
     }
@@ -100,7 +100,7 @@ public class Main {
         int id = input.nextInt();
         for(Cliente cliente: listaClientes){
             if (cliente.getIdentificacao() == id){
-                for(String produto: cliente.listaProdutoCliente){
+                for(Produto produto: cliente.listaProdutoCliente){
                     System.out.println(produto);
                 }
                 break;
