@@ -11,10 +11,10 @@ public class Produto {
     Produto(){
     }
 
-    Produto(String nome, double valor, int codigo){
+    Produto(String nome, double valor){
         this.nome = nome;
         this.valor = valor;
-        this.codigo = codigo;
+
     }
 
     // Getters and Setters

@@ -5,7 +5,8 @@ import java.util.Scanner;
 public class Main {
     public static ArrayList<Cliente> listaClientes = new ArrayList<Cliente>();
     public static ArrayList<Produto> listaProdutos = new ArrayList<Produto>();
-
+    public static HashTable<Integer, Produto> listaHash = new HashTable<Integer, Produto>();
+    public static String[] nomes = {"Papel","Grampeador","Livro","Caderno","Liquidificador","Camisa","Calça","Sapato"};
 
     private static int identificacao = 0;
     public static boolean condition = true;
@@ -19,7 +20,7 @@ public class Main {
             System.out.println("""
                                1 - Registrar Cliente:
                                2 - Fazer compra:
-                               3 - Usar Cupom: """);
+                               3 - Listar Produtos: """);
             System.out.println("\n==================================");
             System.out.print("Escolha oque você deseja fazer: ");
 
@@ -28,7 +29,8 @@ public class Main {
             switch(acao){
                 case 1 -> registroCliente();
                 case 2 -> comprarProduto();
-                case 3 -> gastarCupom();
+                case 3 -> listarProdutos();
+                case 4 -> gastarCupom();
             }
         }while(condition);
 
@@ -62,6 +64,7 @@ public class Main {
     }
     
     public static void comprarProduto(){
+        Cliente clienteComprador=null;
         Scanner input = new Scanner(System.in);
         System.out.print("Digite o ID do usuário: ");
         int id = input.nextInt();
@@ -72,26 +75,40 @@ public class Main {
                         +"\nSaldo: "+ cliente.getSaldo()+
                         "\nIdentificação: "+cliente.getIdentificacao()
                         );
+                clienteComprador = cliente;
                 break;
             }
         }
         System.out.println("\n==================================");
 
         System.out.println("Estes são os produtos que podem ser vendidos, suas identificações e seu estoque:");
-        for(Produto produto: listaProdutos){
-            System.out.println(produto.getNome()+": R$"+produto.getValor()+" - "+produto.getCodigo());
-        }
+
+        System.out.println(listaHash);
+
         System.out.println("Escolha um dos produtos: ");
         int produtoId = input.nextInt();
-        for(Produto produto: listaProdutos) {
-            if (produto.getCodigo() == produtoId) {
-                System.out.println("Produto achado e comprado");
+        Produto produtoComprado = listaHash.get(produtoId);
+        System.out.println("O produto comprado foi: " + produtoComprado);
+        clienteComprador.listaProdutoCliente.add(produtoComprado.getNome());
+
+
+    }
+    public static void listarProdutos(){
+        Cliente clienteProcurado;
+        Scanner input = new Scanner(System.in);
+        System.out.print("Digite o ID do usuário: ");
+        int id = input.nextInt();
+        for(Cliente cliente: listaClientes){
+            if (cliente.getIdentificacao() == id){
+                for(String produto: cliente.listaProdutoCliente){
+                    System.out.println(produto);
+                }
                 break;
             }
         }
-        
+
+
     }
-    
     
     
     
@@ -103,13 +120,19 @@ public class Main {
     public static void addProducts(){
         int cont = 0;
         int valor = 10;
-        String[] nomes = {"Papel","Grampeador","Livro","Caderno","Liquidificador","Camisa","Calça","Sapato"};
         for(int i = 0; i < nomes.length; i++){
-            Produto novoProduto = new Produto(nomes[i],valor,cont);
+            Produto produto = new Produto(nomes[i], valor);
+            listaHash.put(cont,produto);
             cont++;
             valor = valor + 10;
-            listaProdutos.add(novoProduto);
+
         }
+
+
+
+
+
+
     }
 
 
